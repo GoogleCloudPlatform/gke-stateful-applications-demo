@@ -1,0 +1,166 @@
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# StatefulSet for C*
+# See https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
+apiVersion: "apps/v1"
+kind: StatefulSet
+metadata:
+  name: cassandra
+  labels:
+     app: cassandra
+spec:
+  serviceName: cassandra
+  replicas: 3 # starting off with a small cluster of 3 nodes
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      affinity:
+        podAntiAffinity:
+          # The following sections are two examples of using anti pod affinity.
+          # The uncommented section is enabled, or you can use the other example.
+          # Both cannot be used at the same time, and thus the required rule.
+          # is commented out.
+          #
+          # This is using pod anti-affinity to ensure that the scheduler tries
+          # it best to spread pods
+          # see https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity-beta-feature)
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - cassandra
+              topologyKey: kubernetes.io/hostname
+#          use pod anti-affinity to force the scheduler to not deploy two
+#          Cassandra pod on the same node.
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#                - key: app
+#                  operator: In
+#                  values:
+#                  - nginx
+#            topologyKey: kubernetes.io/hostname
+      # allow the pods to be schedule on nodes that are tainted
+      # see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      tolerations:
+      - key: app
+        operator: Equal
+        value: cassandra
+        effect: NoSchedule
+      terminationGracePeriodSeconds: 1800
+      containers:
+      - name: cassandra
+        image: gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7000
+          name: intra-node
+        - containerPort: 7001
+          name: tls-intra-node
+        - containerPort: 7199
+          name: jmx
+        - containerPort: 9042
+          name: cql
+        resources: # these are not production ready values
+          limits:
+            cpu: "1024m"
+            # remember this memory value needs to include:
+            # - heap
+            # - off heap (file io for instance)
+            # - and running nodetool for lifecycle
+            memory: 1Gi
+          requests:
+           cpu: "1024m"
+           memory: 1Gi
+        securityContext:
+          capabilities:
+            add:
+              - IPC_LOCK
+        # this is still needs improvement for Cassandra
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - nodetool drain
+        env:
+          # Various ENV VARS that can be set, a lot more are accessible via
+          # the container.
+          # Refer to the README.md in the container folder for more information. 
+          - name: MAX_HEAP_SIZE
+            value: 512M
+          - name: HEAP_NEWSIZE
+            value: 100M
+          - name: CASSANDRA_SEEDS
+            value: "cassandra-0.cassandra.default.svc.cluster.local"
+          - name: CASSANDRA_CLUSTER_NAME
+            value: "K8Demo"
+          - name: CASSANDRA_DC
+            value: "DC1-K8Demo"
+          - name: CASSANDRA_RACK
+            value: "Rack1-K8Demo"
+          # we are using the downward api to allow the pod get the correct
+          # IP address.
+          # See https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - /ready-probe.sh
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        livenessProbe:
+          exec:
+            command: [ "/bin/sh", "-c", "/usr/local/apache-cassandra/bin/nodetool status" ]
+          initialDelaySeconds: 90
+          periodSeconds: 30
+        # These volume mounts are persistent. They are like inline claims,
+        # but not exactly because the names need to match exactly one of
+        # the stateful pod volumes.
+        volumeMounts:
+        - name: cassandra-data
+          mountPath: /cassandra_data
+  # These are converted to volume claims by the controller
+  # and mounted at the paths mentioned above.
+  # Use SSD GCEPersistentDisk
+  # For more info: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+  volumeClaimTemplates:
+  - metadata:
+      name: cassandra-data
+      annotations:
+        # StorageClass is contained in his demo as well
+        volume.beta.kubernetes.io/storage-class: fast
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

@@ -1,0 +1,69 @@
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+lowercaseOutputLabelNames: true
+lowercaseOutputName: true
+rules:
+- pattern: org.apache.cassandra.metrics<type=(Connection|Streaming), scope=(\S*), name=(\S*)><>(Count|Value)
+  name: cassandra_$1_$3
+  labels:
+    address: "$2"
+
+- pattern: org.apache.cassandra.metrics<type=(?!ColumnFamily)(\S*)(?:, ((?!scope)\S*)=((?!dse|system|solr_admin)\S*))?(?:, scope=(\S*))?, name=(\S*)><>(Count|Value)
+  name: cassandra_$1_$5
+  labels:
+    "$1": "$4"
+    "$2": "$3"
+
+# org.apache.cassandra.metrics<type=Table, keyspace=system_schema, scope=indexes, name=LiveScannedHistogram><>98thPercentile
+- pattern: org\.apache\.cassandra\.metrics<type=(?!ColumnFamily)(\S*)(?:, ((?!scope)\S*)=((?!dse|system|solr_admin)\S*))?(?:, scope=(\S*))?, name=(\S*)><>([a-zA-Z0-9]+)?
+  name: cassandra_$1_$5
+  labels:
+    "$1": "$4"
+    "$2": "$3"
+    metric: "$6"
+
+# org.apache.cassandra.db<type=Tables, keyspace=system, table=views_builds_in_progress><>UnleveledSSTables
+# org.apache.cassandra.db<type=ColumnFamilies, keyspace=system, columnfamily=batches><>DroppableTombstoneRatio
+- pattern: org\.apache\.cassandra\.db<type=(\S*), keyspace=((?!dse|system|solr_admin)\S*), (columnfamily|table)=(\S*)><>([a-zA-Z0-9]+)?
+  name: cassandra_$1
+  labels:
+    keyspace: "$2"
+    table: "$3"
+    metric: "$4"
+
+# org.apache.cassandra.db<type=CompactionManager><>CoreCompactorThreads
+- pattern: org\.apache\.cassandra\.db<type=(\S*)><>([a-zA-Z0-9]+)?
+  name: cassandra_$1
+  labels:
+    metric: "$2"
+
+- pattern: com.datastax.bdp<type=(Connection|Streaming), scope=(\S*), name=(\S*)><>(Count|Value)
+  name: dse_$1_$3
+  labels:
+    address: "$2"
+
+- pattern: com.datastax.bdp<type=(\S*)(?:, ((?!scope)\S*)=(\S*))?(?:, scope=(\S*))?, name=(\S*)><>([a-zA-Z0-9]+)?
+  name: dse_$1_$5
+  labels:
+    "$1": "$4"
+    "$2": "$3"
+    metric: "$6"
+
+# solr/sit1_pb.transactions<type=solr_query, id=com.datastax.bdp.search.solr.handler.component.CqlSearchHandler><>95thPcRequestTime
+- pattern: solr\/(\S*)?<type=(\S*)?, id=\S*\.(\S*)?><>([a-zA-Z0-9]+)?
+  name: dse_search_$3
+  labels:
+    columnfamily: "$1"
+    metric: "$4"
