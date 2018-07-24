@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [[ $(/usr/local/apache-cassandra/bin/nodetool status | grep $POD_IP) == *"UN"* ]]; then
+if [[ $(/usr/local/apache-cassandra/bin/nodetool status | grep "$POD_IP") == *"UN"* ]]; then
   if [[ $DEBUG ]]; then echo "Up"; fi
   exit 0
 else

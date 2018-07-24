@@ -73,7 +73,7 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: cassandra
-        image: gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v3
+        image: gcr.io/pso-examples/cassandra:3.11.2-v3
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -110,7 +110,7 @@ spec:
         env:
           # Various ENV VARS that can be set, a lot more are accessible via
           # the container.
-          # Refer to the README.md in the container folder for more information. 
+          # Refer to the README.md in the container folder for more information.
           - name: MAX_HEAP_SIZE
             value: 512M
           - name: HEAP_NEWSIZE

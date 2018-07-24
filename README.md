@@ -41,13 +41,13 @@
 ## Introduction
 
 This proof of concept deploys a
-[Kubernetes Engine](https://cloud.google.com/kubernetes-engine/) (Kubernetes Engine)
-Cluster and then installs a [Apache Cassandra](http://cassandra.apache.org/)
+[Kubernetes Engine](https://cloud.google.com/kubernetes-engine/)
+Cluster and then installs an [Apache Cassandra](http://cassandra.apache.org/)
 database running on that cluster.
 
 Various scripts are contained within this project that provide push button
 creation, validation, and deletion of the Cassandra(C*) database and Kubernetes
-Engine(Kubernetes Engine) cluster.
+Engine cluster.
 
 Apache Cassandra was chosen for various reasons.  These reasons include that
 out of the box Cassandra functions well as a cloud native database.  Moreover,
@@ -69,7 +69,7 @@ the various Kubernetes manifests and pod configurations used. A container that
 has been customized to run as a pod is used as well. This demo includes multiple
 configured manifests and a specialized container for Cassandra.
 
-Many people including, Kelsey Hightower have talked about how running stateful
+Many people, including Kelsey Hightower, have talked about how running stateful
 datestores inside of K8s is not trivial, and frankly quite complicated.  If you
 can run a database on a managed service, do it.  Let someone else wake up at 2
 am to fix your database.
@@ -94,7 +94,7 @@ following sections outline the different types used.
 #### StatefulSets
 
 StatefulSets is the controller type that is used to install a Cassandra Ring on
-Kubernetes Engine.  This controller manages the installation and scaling of a set of Pods, and
+Kubernetes Engine.  This controller manages the installation and scaling of a set of Pods and
 provides various features:
 
 1. Stable, unique network identifiers.
@@ -212,7 +212,7 @@ This container is hosted by Google Professional Services.
 ## Prerequisites
 
 A Google Cloud account and project is required for this demo. The project must
-have the proper quota to run a Kubernetes Engine cluster with at least 
+have the proper quota to run a Kubernetes Engine cluster with at least
 3 n1-standard-4 and 3 n1-standard-1 nodes.
 
 Access to an existing Google Cloud project with the Kubernetes Engine service enabled
@@ -374,7 +374,7 @@ cqlsh>
 USE greek_monsters;
 ```
 
-The prompt will now include the keyspace that is selected.  
+The prompt will now include the keyspace that is selected.
 
 ```console
 cqlsh:greek_monsters>

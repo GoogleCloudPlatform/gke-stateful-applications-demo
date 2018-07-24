@@ -16,3 +16,5 @@
 Session.vim
 .netrwhist
 
+test/__pycache__
+
