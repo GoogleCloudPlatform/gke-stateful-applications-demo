@@ -47,8 +47,6 @@ fi
 echo "Creating cluster"
 # Turn off annoying messages
 gcloud config set container/new_scopes_behavior true > /dev/null
-# Configure gcloud to use the beta API
-gcloud config set container/use_v1_api false
 # Create a GKE cluster
 # Using beta as taints are in beta
 gcloud beta container clusters create "$CLUSTER_NAME" \
