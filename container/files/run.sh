@@ -109,7 +109,8 @@ echo CASSANDRA_SEED_PROVIDER "${CASSANDRA_SEED_PROVIDER}"
 echo CASSANDRA_TRICKLE_FSYNC "${CASSANDRA_TRICKLE_FSYNC}"
 
 # set the storage directory
-sed -ri "s/^cassandra_storagedir.*/cassandra_storagedir=$CASSANDRA_DATA/" "$CASSANDRA_HOME/bin/cassandra.in.sh"
+# shellcheck disable=SC2016
+sed -ri 's/^cassandra_storagedir.*/cassandra_storagedir=$CASSANDRA_DATA/' "$CASSANDRA_HOME/bin/cassandra.in.sh"
 
 # if DC and RACK are set, use GossipingPropertyFileSnitch
 if [[ $CASSANDRA_DC && $CASSANDRA_RACK ]]; then

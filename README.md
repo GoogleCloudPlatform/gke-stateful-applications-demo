@@ -320,7 +320,7 @@ These `kubectl` commands launch a K8s deployment, wait for the deployment,
 and exec into the shell.
 
 ```console
-kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v3 --command -- /bin/bash -c "tail -f /dev/null"
+kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v5 --command -- /bin/bash -c "tail -f /dev/null"
 kubectl rollout status deployment cass-dev
 kubectl exec $(kubectl get po --no-headers | grep cass-dev | awk '{print $1}') -it -- /bin/bash
 ```
@@ -528,6 +528,3 @@ Use the "gcloud container clusters list" command to check the latest state, and 
 [8]: https://cloud.google.com/compute/quotas
 [9]: https://cloud.google.com
 [10]: https://cloud.google.com/shell/docs/
-
-
-**This is not an officially supported Google product**

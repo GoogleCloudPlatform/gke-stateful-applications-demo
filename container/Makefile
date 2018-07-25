@@ -14,7 +14,7 @@
 
 # TODO upgrade 3.11.2 is out
 VERSION?=3.11.2
-REV?=v3
+REV?=v5
 PROJECT_ID?=pso-examples
 PROJECT?=gcr.io/${PROJECT_ID}
 CASSANDRA_VERSION?=3.11.2

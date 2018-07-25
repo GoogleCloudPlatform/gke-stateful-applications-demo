@@ -27,10 +27,10 @@ LABEL \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.license="Apache License 2.0" \
     org.label-schema.name="Cassandra container optimized for Kubernetes" \
-    org.label-schema.url="https://github.com/k8s-for-greeks/" \
+    org.label-schema.url="https://github.com/GoogleCloudPlatform/" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/k8s-for-greeks/docker-cassandra-k8s"
+    org.label-schema.vcs-url="https://github.com/GoogleCloudPlatform/gke-stateful-applications-demo"
 
 ENV \
     CASSANDRA_CONF=/etc/cassandra \
