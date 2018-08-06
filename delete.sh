@@ -37,12 +37,12 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$ZONE"
 
 # Delete cassandra
 echo "Deleting Cassandra"
-kubectl delete -f "$ROOT"/manifests
+kubectl --namespace=default delete -f "$ROOT"/manifests
 # You have to wait the default pod grace period before you can delete the pvcs
 echo "Sleeping 60 seconds before deleting PVCs. The default pod grace period."
 sleep 60
 # delete the pvcs
-kubectl delete pvc -l app=cassandra
+kubectl --namespace=default delete pvc -l app=cassandra
 
 # Cleanup the cluster
 echo "Deleting cluster"

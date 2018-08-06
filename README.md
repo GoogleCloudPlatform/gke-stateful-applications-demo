@@ -56,7 +56,7 @@ post: [Thousand Instances of Cassandra using Kubernetes Pet Set][1].
 
 When running a database using Kubernetes Engine, as an operator you need to be experienced with Kubernetes Engine
 and the datasource that you are running.  If you are able to use a hosted
-solution then it is recommended that you use the hosted solution. One the other
+solution then it is recommended that you use the hosted solution. On the other
 hand, if you are not able to run a datasource in a hosted solution then hosting
 it is Kubernetes Engine is doable.  The challenge is not Kubernetes or Kubernetes Engine, but the challenge
 is migrating and operating a database in a container based system that can do
@@ -213,7 +213,8 @@ This container is hosted by Google Professional Services.
 
 A Google Cloud account and project is required for this demo. The project must
 have the proper quota to run a Kubernetes Engine cluster with at least
-3 n1-standard-4 and 3 n1-standard-1 nodes.
+3 n1-standard-4 and 3 n1-standard-1 nodes.  Additionally, the project must have
+at least 30 Compute Engine API CPUs and 12 Compute Engine API In-use IP Addresses.
 
 Access to an existing Google Cloud project with the Kubernetes Engine service enabled
 If you do not have a Google Cloud account please signup for a free trial
@@ -239,6 +240,12 @@ This project will run on macOS, or [Google Cloud Shell][10].
 
 More recent versions of all the tools may function, please feel free to file an
 issue if you encounter problems with newer versions.
+
+### Configure Authentication
+
+The script will execute against your GCP environment and it will use your personal account to build out these resources.  To setup the default account the script will use, run the following command to select the appropriate account:
+
+`gcloud auth login`
 
 ## Deployment Steps
 

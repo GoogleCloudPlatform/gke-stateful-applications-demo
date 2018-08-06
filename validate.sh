@@ -37,7 +37,7 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$ZONE"
 
 # Get rollout status for the statefulset and grep for the complete message
 MESSAGE="statefulset rolling update complete"
-ROLLOUT=$(kubectl rollout status --watch=false -f \
+ROLLOUT=$(kubectl --namespace=default rollout status --watch=false -f \
   "$ROOT"/manifests/cassandra-statefulset.yaml)
 
 # Test the ROLLOUT variable to see if the grep has returned the expected value.

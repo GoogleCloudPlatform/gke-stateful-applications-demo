@@ -36,8 +36,8 @@ ENV \
     CASSANDRA_CONF=/etc/cassandra \
     CASSANDRA_DATA=/var/lib/cassandra \
     CASSANDRA_LOGS=/var/log/cassandra \
-    CASSANDRA_RELEASE=3.11.2 \
-    CASSANDRA_SHA=e922770ad95d5288d42442c3cfa1475938597b38418b7be5c4234a9de388c720 \
+    CASSANDRA_RELEASE=3.11.3 \
+    CASSANDRA_SHA=d82e0670cb41b091e88fff55250ce945c4ea026c87a5517d3cf7b6b351d5e2ba \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     DI_VERSION=1.2.1 \
     DI_SHA=057ecd4ac1d3c3be31f82fc0848bf77b1326a975b4f8423fe31607205a0fe945 \
@@ -50,6 +50,7 @@ ENV \
 
 COPY files /
 
+# hadolint ignore=DL3008,DL4006
 RUN \
     set -ex \
     && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections \
@@ -67,7 +68,7 @@ RUN \
     && wget -q -O - "http://search.maven.org/remotecontent?filepath=org/jolokia/jolokia-jvm/${JOLOKIA_VERSION}/jolokia-jvm-${JOLOKIA_VERSION}-agent.jar" > /usr/local/share/jolokia-agent.jar \
     && echo "$JOLOKIA_SHA  /usr/local/share/jolokia-agent.jar" | sha256sum -c - \
     && mirror_url=$( wget -q -O - 'https://www.apache.org/dyn/closer.cgi?as_json=1' | jq --raw-output '.preferred' ) \
-    && wget -q -O - ${mirror_url}cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz > /usr/local/apache-cassandra-bin.tar.gz \
+    && wget -q -O - "${mirror_url}cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz" > /usr/local/apache-cassandra-bin.tar.gz \
     && echo "$CASSANDRA_SHA /usr/local/apache-cassandra-bin.tar.gz" | sha256sum - \
     && tar -xzf /usr/local/apache-cassandra-bin.tar.gz -C /usr/local \
     && rm /usr/local/apache-cassandra-bin.tar.gz \
