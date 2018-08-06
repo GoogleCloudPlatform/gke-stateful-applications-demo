@@ -49,8 +49,9 @@ echo "Creating cluster"
 gcloud config set container/new_scopes_behavior true > /dev/null
 # Create a GKE cluster
 # Using beta as taints are in beta
-gcloud beta container clusters create "$CLUSTER_NAME" \
+gcloud container clusters create "$CLUSTER_NAME" \
   --zone "$ZONE" \
+  --node-locations "$ZONESINREGION" \
   --cluster-version "$GKE_VERSION" \
   --machine-type "n1-standard-4" \
   --num-nodes=3 \
@@ -62,7 +63,8 @@ gcloud beta container clusters create "$CLUSTER_NAME" \
 gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$ZONE"
 
 # Create cassandra cluster using the manifests in the 'manifests' directory.
-kubectl create -f "$ROOT"/manifests
+# need to set namespace explicitly
+kubectl --namespace=default create -f "$ROOT"/manifests
 
 # Create new nodepool that will not schedule Cassandra Pods
 # We create the nodepool after the kubectl command because this may cause
