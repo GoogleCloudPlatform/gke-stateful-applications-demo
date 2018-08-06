@@ -84,6 +84,7 @@ spec:
                 // env.PROJECT_ID will need to be updated to match your GCP
                 // development project id
                 env.PROJECT_ID = "${PROJECT_ID}"
+                env.REGION = "${REGION}"
                 def shortCommit = sh ( returnStdout: true, script: 'git rev-parse HEAD | cut -c 1-6').trim()
                 env.CLUSTER_NAME = "mycsharp-${shortCommit}"
                 //env.CLUSTER_NAME = "${CLUSTER_NAME}"
@@ -94,6 +95,7 @@ spec:
           sh "gcloud config set compute/zone ${env.CLUSTER_ZONE}"
           sh "gcloud config set core/project ${env.PROJECT_ID}"
           sh "gcloud config set container/cluster ${env.CLUSTER_NAME}"
+          sh "gcloud config set compute/region ${env.REGION}"
          }
         }
     }
