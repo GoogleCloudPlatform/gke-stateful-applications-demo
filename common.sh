@@ -58,7 +58,7 @@ if [ -z "${ZONE}" ]; then
     exit 1;
 fi
 
-#Get the default region and use it or die
+# Get the default region and use it or die
 REGION=$(gcloud config get-value compute/region)
 if [ -z "${REGION}" ]; then
     echo "gcloud cli must be configured with a default region." 1>&2
