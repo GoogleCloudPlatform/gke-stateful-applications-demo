@@ -27,6 +27,7 @@ set -o pipefail
 
 ROOT=$(dirname "${BASH_SOURCE[0]}")
 CLUSTER_NAME=""
+ZONE2=""
 ZONE=""
 GKE_VERSION=$(gcloud container get-server-config \
   --format="value(validMasterVersions[0])")
