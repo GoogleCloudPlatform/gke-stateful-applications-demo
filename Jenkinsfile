@@ -96,6 +96,7 @@ spec:
           sh "gcloud config set core/project ${env.PROJECT_ID}"
           sh "gcloud config set container/cluster ${env.CLUSTER_NAME}"
           sh "gcloud config set compute/region ${env.REGION}"
+          sh "echo 'a fine change indeed'"
          }
         }
     }
