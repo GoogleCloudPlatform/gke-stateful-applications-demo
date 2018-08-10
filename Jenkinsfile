@@ -70,6 +70,7 @@ spec:
     IMAGE_TAG = "${CASSANDRA_VERSION}-${REV}"
     APP_NAME='cassandra'
     MANIFEST_FILE='manifests/cassandra-statefulset.yaml'
+    PR='yes'
   }
 
   stages {
