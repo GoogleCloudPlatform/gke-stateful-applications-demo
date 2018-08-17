@@ -70,6 +70,7 @@ spec:
     IMAGE_TAG = "${CASSANDRA_VERSION}-${REV}"
     APP_NAME='cassandra'
     MANIFEST_FILE='manifests/cassandra-statefulset.yaml'
+    GOOGLE_APPLICATION_CREDENTIALS    = '/home/jenkins/dev/jenkins-deploy-dev-infra.json'
   }
 
   stages {
@@ -87,8 +88,7 @@ spec:
                 env.REGION = "${REGION}"
                 def shortCommit = sh ( returnStdout: true, script: 'git rev-parse HEAD | cut -c 1-6').trim()
                 env.CLUSTER_NAME = "mycsharp-${shortCommit}"
-                //env.CLUSTER_NAME = "${CLUSTER_NAME}"
-                env.KEYFILE = "/home/jenkins/dev/jenkins-deploy-dev-infra.json"
+                env.KEYFILE = GOOGLE_APPLICATION_CREDENTIALS
             }
           // Setup gcloud service account access
           sh "gcloud auth activate-service-account --key-file=${env.KEYFILE}"
