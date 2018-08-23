@@ -226,6 +226,8 @@ How to check your account's quota is documented here: [quotas][8].
 
 This project will run on macOS, or [Google Cloud Shell][10].
 
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
+
 ### Tools
 
 1. gcloud cli
