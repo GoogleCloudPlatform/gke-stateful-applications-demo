@@ -54,7 +54,7 @@ gcloud container clusters create "$CLUSTER_NAME" \
   --node-locations "$ZONESINREGION" \
   --cluster-version "$GKE_VERSION" \
   --machine-type "n1-standard-4" \
-  --num-nodes=3 \
+  --num-nodes=1 \
   --node-taints app=cassandra:NoSchedule \
   --enable-network-policy \
   --enable-ip-alias

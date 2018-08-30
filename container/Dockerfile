@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO upgrade to newer container, but it is going to take work
-#FROM gcr.io/google_containers/ubuntu-slim:0.12
 FROM gcr.io/google-containers/debian-base-amd64:0.3
 
 ARG BUILD_DATE
@@ -21,7 +19,6 @@ ARG VCS_REF
 ARG CASSANDRA_VERSION
 ARG CQLSH_CONTAINER
 
-# TODO update before release
 LABEL \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="/Dockerfile" \
