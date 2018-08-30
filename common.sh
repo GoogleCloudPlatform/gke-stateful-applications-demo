@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 
 # Copyright 2018 Google LLC
 #
@@ -69,8 +69,9 @@ fi
 
 # Get a comma separated list of zones from the default region
 ZONESINREGION=""
-for FILTEREDZONE in $(gcloud compute zones list --filter="region:$REGION" --format="value(name)" --limit 2)
+for FILTEREDZONE in $(gcloud compute zones list --filter="region:$REGION" --format="value(name)" --limit 3)
 do
+  # Get a least 3 zones to run 3 nodes in
   ZONESINREGION+="$FILTEREDZONE,"
 done
 #Remove the last comma from the starting

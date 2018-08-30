@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 
 # Copyright 2018 Google LLC
 #
@@ -36,19 +36,21 @@ source "$ROOT"/common.sh
 
 
 if [[ "$(gcloud services list --format='value(serviceConfig.name)' \
-                              --filter='serviceConfig.name:container.googleapis.com' 2>&1)" != \
-                              'container.googleapis.com' ]]; then
+  --filter='serviceConfig.name:container.googleapis.com' 2>&1)" != \
+  'container.googleapis.com' ]]; then
   echo "Enabling the Kubernetes Engine API"
   gcloud services enable container.googleapis.com
 else
   echo "The Kubernetes Engine API is already enabled"
 fi
 
-echo "Creating cluster"
 # Turn off annoying messages
 gcloud config set container/new_scopes_behavior true > /dev/null
+
 # Create a GKE cluster
-# Using beta as taints are in beta
+# Only setting num of node to "1", because it is a regional cluster the create
+# call will create a nodepool that has "1" node in every zone.
+echo "Creating cluster"
 gcloud container clusters create "$CLUSTER_NAME" \
   --zone "$ZONE" \
   --node-locations "$ZONESINREGION" \
@@ -71,4 +73,5 @@ kubectl --namespace=default create -f "$ROOT"/manifests
 # the control plane to be upgraded.
 gcloud container node-pools create nodepool-cassdemo-2 \
   --zone "$ZONE" \
+  --num-nodes=1 \
   --cluster "$CLUSTER_NAME"
