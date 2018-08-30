@@ -129,7 +129,7 @@ spec:
              // update the cassandra image tag
              sh './update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}'
              sh "make create CLUSTER_NAME=${env.CLUSTER_NAME}"
-             sh "sleep 540"
+             sh "sleep 240"
           }
         }
       }
