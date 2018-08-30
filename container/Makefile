@@ -12,24 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO upgrade 3.11.2 is out
-VERSION?=3.11.2
-REV?=v5
+VERSION?=3.11.3
+REV?=v22
 PROJECT_ID?=pso-examples
 PROJECT?=gcr.io/${PROJECT_ID}
-CASSANDRA_VERSION?=3.11.2
 CASSANDRA_HOST_IP?=$(strip $(shell ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'|tail -n 1|awk '{print $1}'))
 
 all: build
 
 docker:
-	docker build --no-cache=true --compress --squash --build-arg "CASSANDRA_VERSION=${CASSANDRA_VERSION}" -t ${PROJECT}/cassandra:${VERSION}-${REV} .
+	docker build --no-cache=true --compress --squash --build-arg "CASSANDRA_VERSION=${VERSION}" -t ${PROJECT}/cassandra:${VERSION}-${REV} .
 
 docker-cqlsh:
-	docker build --pull --build-arg "CASSANDRA_VERSION=${CASSANDRA_VERSION}" --build-arg "CQLSH_CONTAINER=1" -t ${PROJECT}/cassandra:${VERSION}-cqlsh-${REV} .
+	docker build --pull --build-arg "CASSANDRA_VERSION=${VERSION}" --build-arg "CQLSH_CONTAINER=1" -t ${PROJECT}/cassandra:${VERSION}-cqlsh-${REV} .
 
 docker-cached:
-	docker build --compress --squash --build-arg "CASSANDRA_VERSION=${CASSANDRA_VERSION}" -t ${PROJECT}/cassandra:${VERSION}-${REV} .
+	docker build --compress --squash --build-arg "CASSANDRA_VERSION=${VERSION}" -t ${PROJECT}/cassandra:${VERSION}-${REV} .
 
 build: docker
 

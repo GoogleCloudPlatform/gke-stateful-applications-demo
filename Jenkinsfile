@@ -39,7 +39,7 @@ spec:
     - cat
     tty: true
     volumeMounts:
-    # Mount the docker.sock file so we can communicate wth the local docker
+    # Mount the docker.sock file so we can communicate with the local docker
     # daemon
     - name: docker-sock-volume
       mountPath: /var/run/docker.sock
@@ -75,7 +75,17 @@ spec:
 
   stages {
 
-    stage('Setup access') {
+    // Run our various linters against the project
+    stage('Lint') {
+      steps {
+        container('k8s-node') {
+           sh "make all"
+        }
+      }
+    }
+
+    // Setup the GCE access for Jenkins test run
+    stage('Setup') {
       steps {
        container('k8s-node') {
           script {
@@ -100,15 +110,8 @@ spec:
         }
     }
 
-    stage('linter') {
-      steps {
-        container('k8s-node') {
-           sh "make all"
-        }
-      }
-    }
-
-   stage('buildcontainers') {
+   // Use Cloud Build to build our two containers
+   stage('Build Containers') {
       steps {
         container('k8s-node') {
            dir ('container') {
@@ -118,20 +121,22 @@ spec:
       }
     }
 
-    stage('create') {
+    // Update the manifest and build the Cassandra Cluster
+    stage('Create') {
       steps {
         container('k8s-node') {
            timeout(time: 20, unit: 'MINUTES') {
              // update the cassandra image tag
              sh './update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}'
              sh "make create CLUSTER_NAME=${env.CLUSTER_NAME}"
-             sh "sleep 540"
+             sh "sleep 240"
           }
         }
       }
     }
 
-    stage('validate') {
+    // Validate the Cassandra Cluster
+    stage('Validate') {
       steps {
         container('k8s-node') {
           script {
@@ -142,20 +147,13 @@ spec:
         }
       }
     }
-
-    stage('delete') {
-      steps {
-        container('k8s-node') {
-          sh "make delete CLUSTER_NAME=${env.CLUSTER_NAME}"
-        }
-      }
-    }
-
   }
 
+  // Tear down everything
   post {
     always {
       container('k8s-node') {
+        sh "make delete CLUSTER_NAME=${env.CLUSTER_NAME}"
         sh 'gcloud auth revoke'
       }
     }

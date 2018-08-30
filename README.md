@@ -226,6 +226,8 @@ How to check your account's quota is documented here: [quotas][8].
 
 This project will run on macOS, or [Google Cloud Shell][10].
 
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
+
 ### Tools
 
 1. gcloud cli
@@ -234,9 +236,9 @@ This project will run on macOS, or [Google Cloud Shell][10].
 
 ### Versions
 
-1. Kubernetes Engine latest version - first tested with 1.10.2-gke.3
+1. Kubernetes Engine latest version - first tested with 1.10.6-gke.2
 2. kubectl that matches Kubernetes Engine version
-3. gcloud - Google Cloud SDK 200.0.0
+3. gcloud - Google Cloud SDK 214.0.0
 
 More recent versions of all the tools may function, please feel free to file an
 issue if you encounter problems with newer versions.
@@ -327,7 +329,7 @@ These `kubectl` commands launch a K8s deployment, wait for the deployment,
 and exec into the shell.
 
 ```console
-kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v5 --command -- /bin/bash -c "tail -f /dev/null"
+kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v22 --command -- /bin/bash -c "tail -f /dev/null"
 kubectl rollout status deployment cass-dev
 kubectl exec $(kubectl get po --no-headers | grep cass-dev | awk '{print $1}') -it -- /bin/bash
 ```
