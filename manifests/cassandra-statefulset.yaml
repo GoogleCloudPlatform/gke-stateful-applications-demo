@@ -53,17 +53,18 @@ spec:
                   values:
                   - cassandra
               topologyKey: kubernetes.io/hostname
-#          use pod anti-affinity to force the scheduler to not deploy two
-#          Cassandra pod on the same node.
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#          - labelSelector:
-#              matchExpressions:
-#                - key: app
-#                  operator: In
-#                  values:
-#                  - nginx
-#            topologyKey: kubernetes.io/hostname
-      # allow the pods to be schedule on nodes that are tainted
+      #    Use pod anti-affinity to force the scheduler to not deploy two
+      #    Cassandra pod on the same node.
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #    - labelSelector:
+      #        matchExpressions:
+      #          - key: app
+      #            operator: In
+      #            values:
+      #            - nginx
+      #      topologyKey: kubernetes.io/hostname
+
+      # Allow the pods to be schedule on nodes that are tainted
       # see https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
       tolerations:
       - key: app
