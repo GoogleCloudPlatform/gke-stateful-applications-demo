@@ -230,7 +230,8 @@ Click the button below to run the demo in a [Google Cloud Shell][10].
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
 
 All the tools for the demo are installed. When using Cloud Shell execute the following
-command in order to setup gcloud cli.
+command in order to setup gcloud cli. When executing this command please setup your region
+and zone.
 
 ```console
 gcloud init
