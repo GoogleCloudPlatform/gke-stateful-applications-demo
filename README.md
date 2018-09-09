@@ -15,6 +15,7 @@
       * [DNS and Headless Services](#dns-and-headless-services)
    * [Cassandra Container](#cassandra-container)
 * [Prerequisites](#prerequisites)
+   * [Run Demo in a Google Cloud Shell](#run-demo-in-a-google-cloud-shell)
    * [Supported Operating Systems](#supported-operating-systems)
    * [Tools](#tools)
    * [Versions](#versions)
@@ -222,13 +223,26 @@ If you do not have a Google Cloud account please signup for a free trial
 
 How to check your account's quota is documented here: [quotas][8].
 
-### Supported Operating Systems
+### Run Demo in a Google Cloud Shell
 
-This project will run on macOS, or [Google Cloud Shell][10].
+Click the button below to run the demo in a [Google Cloud Shell][10].
 
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
 
+All the tools for the demo are installed. When using Cloud Shell execute the following
+command in order to setup gcloud cli.
+
+```console
+gcloud init
+```
+
+### Supported Operating Systems
+
+This project will run on macOS, or in a [Google Cloud Shell][10].
+
 ### Tools
+
+When not using Cloud Shell, the following tools are required.
 
 1. gcloud cli
 2. kubectl
