@@ -230,7 +230,8 @@ Click the button below to run the demo in a [Google Cloud Shell][10].
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
 
 All the tools for the demo are installed. When using Cloud Shell execute the following
-command in order to setup gcloud cli.
+command in order to setup gcloud cli. When executing this command please setup your region
+and zone.
 
 ```console
 gcloud init
@@ -496,15 +497,13 @@ This output will change depending on the cluster name.  In this example the name
 "my-cluster-1" was used.
 
 Replace the text 'my-cluster-1' the name of the cluster that you would like to
-validate. You will be prompted to confirm that you want to delete the cluster.
-
-The last lines of the output will be:
+validate.  The last lines of the output will be:
 
 ```console
-The following clusters will be deleted.
- - [cluster-1] in [us-central1-a]
-
-Do you want to continue (Y/n)?  Y
+persistentvolumeclaim "cassandra-data-cassandra-0" deleted
+persistentvolumeclaim "cassandra-data-cassandra-1" deleted
+persistentvolumeclaim "cassandra-data-cassandra-2" deleted
+Deleting cluster
 ```
 
 The tear down script removes all of the components in the manifests directory,
