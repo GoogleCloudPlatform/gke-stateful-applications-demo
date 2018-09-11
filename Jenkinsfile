@@ -127,9 +127,10 @@ spec:
         container('k8s-node') {
            timeout(time: 20, unit: 'MINUTES') {
              // update the cassandra image tag
-             sh './update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}'
+             sh "./update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}"
              sh "make create CLUSTER_NAME=${env.CLUSTER_NAME}"
-             sh "sleep 240"
+             sh "sleep 360"
+             // TODO add condition to test with `gcloud container clusters list --filter name=${env.CLUSTER_NAME} --format=value(status)` != "RUNNING" ]`
           }
         }
       }

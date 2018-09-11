@@ -46,4 +46,4 @@ kubectl --namespace=default delete pvc -l app=cassandra
 
 # Cleanup the cluster
 echo "Deleting cluster"
-gcloud container clusters delete "$CLUSTER_NAME" --zone "$ZONE" --async
+gcloud container clusters delete "$CLUSTER_NAME" --zone "$ZONE" --async --quiet
