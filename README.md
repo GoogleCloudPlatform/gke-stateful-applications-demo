@@ -497,15 +497,13 @@ This output will change depending on the cluster name.  In this example the name
 "my-cluster-1" was used.
 
 Replace the text 'my-cluster-1' the name of the cluster that you would like to
-validate. You will be prompted to confirm that you want to delete the cluster.
-
-The last lines of the output will be:
+validate.  The last lines of the output will be:
 
 ```console
-The following clusters will be deleted.
- - [cluster-1] in [us-central1-a]
-
-Do you want to continue (Y/n)?  Y
+persistentvolumeclaim "cassandra-data-cassandra-0" deleted
+persistentvolumeclaim "cassandra-data-cassandra-1" deleted
+persistentvolumeclaim "cassandra-data-cassandra-2" deleted
+Deleting cluster
 ```
 
 The tear down script removes all of the components in the manifests directory,
