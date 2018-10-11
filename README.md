@@ -245,9 +245,12 @@ This project will run on macOS, or in a [Google Cloud Shell][10].
 
 When not using Cloud Shell, the following tools are required.
 
-1. gcloud cli
-2. kubectl
-3. docker (used to build container, you can use hosted container)
+1. [google cloud sdk](https://cloud.google.com/sdk/downloads)
+2. [gcloud cli](https://cloud.google.com/sdk/gcloud/)
+3. [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/) (comes with gcloud)
+4. docker (used to build container, you can use hosted container)
+
+(https://kubernetes.io/docs/reference/kubectl/overview/) (comes with gcloud)
 
 ### Versions
 
