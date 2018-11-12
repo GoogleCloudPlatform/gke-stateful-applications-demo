@@ -245,21 +245,23 @@ This project will run on macOS, or in a [Google Cloud Shell][10].
 
 When not using Cloud Shell, the following tools are required.
 
-1. [google cloud sdk](https://cloud.google.com/sdk/downloads)
+1. [Google Cloud SDK version >= 204.0.0](https://cloud.google.com/sdk/docs/downloads-versioned-archives)
 2. [gcloud cli](https://cloud.google.com/sdk/gcloud/)
-3. [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/) (comes with gcloud)
+3. [kubectl matching the latest GKE version](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 4. docker (used to build container, you can use hosted container)
-
-(https://kubernetes.io/docs/reference/kubectl/overview/) (comes with gcloud)
-
-### Versions
-
-1. Kubernetes Engine latest version - first tested with 1.10.6-gke.2
-2. kubectl that matches Kubernetes Engine version
-3. gcloud - Google Cloud SDK 214.0.0
 
 More recent versions of all the tools may function, please feel free to file an
 issue if you encounter problems with newer versions.
+
+#### Install Cloud SDK
+The Google Cloud SDK is used to interact with your GCP resources.
+[Installation instructions](https://cloud.google.com/sdk/downloads) for multiple platforms are available online.
+
+#### Install kubectl CLI
+
+The kubectl CLI is used to interteract with both Kubernetes Engine and kubernetes in general.
+[Installation instructions](https://cloud.google.com/kubernetes-engine/docs/quickstart)
+for multiple platforms are available online.
 
 ### Configure Authentication
 
