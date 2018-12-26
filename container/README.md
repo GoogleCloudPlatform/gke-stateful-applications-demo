@@ -6,11 +6,11 @@ Two containers are hosted; one without cqlsh or python, and another with cqlsh a
 The containers are available via:
 
 ```console
-docker pull gcr.io/pso-examples/cassandra:3.11.2-v3
+docker pull gcr.io/pso-examples/cassandra:3.11.3-v22
 ```
 Or
 ```console
-docker pull gcr.io/pso-examples/cassandra:3.11.2-cqlsh-v3
+docker pull gcr.io/pso-examples/cassandra:3.11.3-cqlsh-v22
 ```
 
 ## Building via Makefile
@@ -50,14 +50,14 @@ files folder as well.
 
 Besides the base values one can pass in Environment Variables that named with
 the prefix `CASSANDRA_YAML_`.  Any env var with that prefix is parsed and the value
-sets the corresponding YAML value in the `cassandra.yaml` C* configuration file.
+sets the corresponding YAML value in the `cassandra.yaml` configuration file.
 
 For example:
 
 1. set an env var `CASSANDRA_YAML_phi_convict_threshold=10`
-1. run.sh replaces the line "# phi_convict_threshold: 8" with "phi_convict_threshold: 10"
+1. run.sh replaces the line `# phi_convict_threshold: 8" with "phi_convict_threshold: 10`
 
 ## Ready Probe
 
 The [ready probe](files/ready-probe.sh) file is used by Kubernetes to check the
-readiness of the C* container.
+readiness of the container.
