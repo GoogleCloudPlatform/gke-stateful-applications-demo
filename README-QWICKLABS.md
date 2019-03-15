@@ -286,7 +286,7 @@ These `kubectl` commands launch a K8s deployment, wait for the deployment,
 and exec into the shell.
 
 ```console
-kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.3-cqlsh-v22 --command -- /bin/bash -c "tail -f /dev/null"
+kubectl run cass-dev --image gcr.io/pso-examples/cassandra:3.11.4-cqlsh-v22 --command -- /bin/bash -c "tail -f /dev/null"
 kubectl rollout status deployment cass-dev
 kubectl exec $(kubectl get po --no-headers | grep cass-dev | awk '{print $1}') -it -- /bin/bash
 ```
@@ -307,7 +307,7 @@ The output of the command:
 
 ```console
 Connected to K8Demo at cassandra-0.cassandra.default.svc.cluster.local:9042.
-[cqlsh 5.0.1 | Cassandra 3.11.3 | CQL spec 3.4.4 | Native protocol v4]
+[cqlsh 5.0.1 | Cassandra 3.11.4 | CQL spec 3.4.4 | Native protocol v4]
 Use HELP for help.
 cqlsh>
 ```

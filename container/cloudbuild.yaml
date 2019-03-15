@@ -18,7 +18,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '--build-arg', 'CASSANDRA_VERSION=${_CASSANDRA_VERSION}', '--no-cache=true', '--compress', '-t', 'gcr.io/pso-examples/cassandra:${_CASSANDRA_VERSION}-${_REV_}', '.' ]
 substitutions:
-    _CASSANDRA_VERSION: '3.11.3'
+    _CASSANDRA_VERSION: '3.11.4'
     _REV_: 'v22'
 images: [
     'gcr.io/pso-examples/cassandra:${_CASSANDRA_VERSION}-cqlsh-${_REV_}',

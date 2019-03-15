@@ -64,7 +64,7 @@ spec:
   }
 
   environment {
-    CASSANDRA_VERSION = "3.11.3"
+    CASSANDRA_VERSION = "3.11.4"
     REV = "v${env.BUILD_NUMBER}"
     IMAGE_TAG = "${CASSANDRA_VERSION}-${REV}"
     APP_NAME='cassandra'

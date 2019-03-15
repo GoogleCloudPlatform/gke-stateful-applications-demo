@@ -6,11 +6,11 @@ Two containers are hosted; one without cqlsh or python, and another with cqlsh a
 The containers are available via:
 
 ```console
-docker pull gcr.io/pso-examples/cassandra:3.11.3-v22
+docker pull gcr.io/pso-examples/cassandra:3.11.4-v22
 ```
 Or
 ```console
-docker pull gcr.io/pso-examples/cassandra:3.11.3-cqlsh-v22
+docker pull gcr.io/pso-examples/cassandra:3.11.4-cqlsh-v22
 ```
 
 ## Building via Makefile
