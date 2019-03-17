@@ -74,7 +74,7 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: cassandra
-        image: gcr.io/pso-examples/cassandra:3.11.4-v22
+        image: gcr.io/pso-examples/cassandra:3.11.4-v8
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
