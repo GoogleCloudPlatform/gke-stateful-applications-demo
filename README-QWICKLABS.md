@@ -1,3 +1,4 @@
+
 # Google Kubernetes Engine Stateful Application Demo
 
 ## Table of Contents
@@ -14,11 +15,6 @@
       * [Pod Scheduling](#pod-scheduling)
       * [DNS and Headless Services](#dns-and-headless-services)
    * [Cassandra Container](#cassandra-container)
-* [Prerequisites](#prerequisites)
-   * [Run Demo in a Google Cloud Shell](#run-demo-in-a-google-cloud-shell)
-   * [Supported Operating Systems](#supported-operating-systems)
-   * [Tools](#tools)
-   * [Versions](#versions)
 * [Deployment Steps](#deployment-steps)
 * [Validation](#validation)
    * [Using Cassandara](#using-cassandara)
@@ -209,65 +205,6 @@ For more information about the ENV variables that have been exposed see
 [manifest](manifests/cassandra-statefulset.yaml).
 
 This container is hosted by Google Professional Services.
-
-## Prerequisites
-
-A Google Cloud account and project is required for this demo. The project must
-have the proper quota to run a Kubernetes Engine cluster with at least
-3 n1-standard-4 and 3 n1-standard-1 nodes.  Additionally, the project must have
-at least 30 Compute Engine API CPUs and 12 Compute Engine API In-use IP Addresses.
-
-Access to an existing Google Cloud project with the Kubernetes Engine service enabled
-If you do not have a Google Cloud account please signup for a free trial
-[here][9].
-
-How to check your account's quota is documented here: [quotas][8].
-
-### Run Demo in a Google Cloud Shell
-
-Click the button below to run the demo in a [Google Cloud Shell][10].
-
-[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fgke-stateful-applications-demo&page=editor&tutorial=README.md)
-
-All the tools for the demo are installed. When using Cloud Shell execute the following
-command in order to setup gcloud cli. When executing this command please setup your region
-and zone.
-
-```console
-gcloud init
-```
-
-### Supported Operating Systems
-
-This project will run on macOS, or in a [Google Cloud Shell][10].
-
-### Tools
-
-When not using Cloud Shell, the following tools are required.
-
-1. [Google Cloud SDK version >= 204.0.0](https://cloud.google.com/sdk/docs/downloads-versioned-archives)
-2. [gcloud cli](https://cloud.google.com/sdk/gcloud/)
-3. [kubectl matching the latest GKE version](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-4. docker (used to build container, you can use hosted container)
-
-More recent versions of all the tools may function, please feel free to file an
-issue if you encounter problems with newer versions.
-
-#### Install Cloud SDK
-The Google Cloud SDK is used to interact with your GCP resources.
-[Installation instructions](https://cloud.google.com/sdk/downloads) for multiple platforms are available online.
-
-#### Install kubectl CLI
-
-The kubectl CLI is used to interteract with both Kubernetes Engine and kubernetes in general.
-[Installation instructions](https://cloud.google.com/kubernetes-engine/docs/quickstart)
-for multiple platforms are available online.
-
-### Configure Authentication
-
-The script will execute against your GCP environment and it will use your personal account to build out these resources.  To setup the default account the script will use, run the following command to select the appropriate account:
-
-`gcloud auth login`
 
 ## Deployment Steps
 

@@ -33,8 +33,7 @@ metadata:
 spec:
   containers:
   - name: k8s-node
-    image: gcr.io/pso-helmsman-cicd/jenkins-k8s-node:1.1.0
-    imagePullPolicy: Always
+    image: gcr.io/pso-helmsman-cicd/jenkins-k8s-node:${env.CONTAINER_VERSION}
     command:
     - cat
     tty: true
@@ -65,7 +64,7 @@ spec:
   }
 
   environment {
-    CASSANDRA_VERSION = "3.11.3"
+    CASSANDRA_VERSION = "3.11.4"
     REV = "v${env.BUILD_NUMBER}"
     IMAGE_TAG = "${CASSANDRA_VERSION}-${REV}"
     APP_NAME='cassandra'

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VERSION?=3.11.3
+VERSION?=3.11.4
 REV?=v22
 PROJECT_ID?=pso-examples
 PROJECT?=gcr.io/${PROJECT_ID}
