@@ -191,8 +191,8 @@ while read -r envname ; do
     name=$(echo ${envname}| sed s/CASSANDRA_YAML_//g | cut -d= -f 1 | sed -e 's/\(.*\)/\L\1/')
     val=$(echo ${envname}|cut -d= -f 2)
     if grep $name $CASSANDRA_CFG;then
-        echo "FOUND $name $yaml $val"
-        sed -ri 's/^(#\s*)?('"$yaml"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
+        echo "FOUND $name $val"
+        sed -ri 's/^(#\s*)?('"$name"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
     else
         echo "NOT FOUND $name, appending to $CASSANDRA_CFG"
         echo "$name: $val" >> $CASSANDRA_CFG
