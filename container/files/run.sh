@@ -186,14 +186,17 @@ done
 # CASSANDRA_YAML_phi_convict_threshold=10 is set the StatefulSet manifest
 # "# phi_convict_threshold: 8" line in the C* config file will be modified to
 # "phi_convict_threshold: 10".
-# TODO: do a to lower on the $yaml value to ensure that CASSANDRA_YAML_FOO and
-# TODO: CASSANDRA_YAML_foo both work.
-while IFS='=' read -r name ; do
-  if [[ $name == 'CASSANDRA_YAML_'* ]]; then
-    val="${!name}"
-    yaml=$(echo "${name,,}" | cut -c 16-)
-    echo "FOUND $name $yaml $val"
-    sed -ri 's/^(#\s*)?('"$yaml"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
+while read -r envname ; do
+  if [[ $envname == 'CASSANDRA_YAML_'* ]]; then
+    name=$(echo ${envname}| sed s/CASSANDRA_YAML_//g | cut -d= -f 1 | sed -e 's/\(.*\)/\L\1/')
+    val=$(echo ${envname}|cut -d= -f 2)
+    if grep $name $CASSANDRA_CFG;then
+        echo "FOUND $name $yaml $val"
+        sed -ri 's/^(#\s*)?('"$yaml"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
+    else
+        echo "NOT FOUND $name, appending to $CASSANDRA_CFG"
+        echo "$name: $val" >> $CASSANDRA_CFG
+    fi
   fi
 done < <(env)
 
