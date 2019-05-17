@@ -50,7 +50,11 @@ files folder as well.
 
 Besides the base values one can pass in Environment Variables that named with
 the prefix `CASSANDRA_YAML_`.  Any env var with that prefix is parsed and the value
-sets the corresponding YAML value in the `cassandra.yaml` configuration file.
+sets the corresponding YAML value in the `cassandra.yaml` configuration file, even
+if that line did not exist firsthand.
+Worth noting is that `CASSANDRA_YAML_FOO_BAR=baz` and `CASSANDRA_YAML_foo_bar=baz` will yield the
+same resulting line `foo_bar: baz` within the configuration file, as lowercase characters are enforced
+on configuration keys.
 
 For example:
 

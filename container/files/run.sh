@@ -130,6 +130,9 @@ fi
 if [ -n "$CASSANDRA_REPLACE_NODE" ]; then
    echo "-Dcassandra.replace_address=$CASSANDRA_REPLACE_NODE/" >> "$CASSANDRA_CONF_DIR/jvm.options"
 fi
+if [ -n "$CASSANDRA_REPLACE_ADDRESS_FIRST_BOOT" ]; then
+   echo "-Dcassandra.replace_address_first_boot=$CASSANDRA_REPLACE_ADDRESS_FIRST_BOOT/" >> "$CASSANDRA_CONF_DIR/jvm.options"
+fi
 
 # Setup C* racks
 # Add rack
@@ -188,9 +191,9 @@ done
 # "phi_convict_threshold: 10".
 while read -r envname ; do
   if [[ $envname == 'CASSANDRA_YAML_'* ]]; then
-    name=$(echo ${envname}| sed s/CASSANDRA_YAML_//g | cut -d= -f 1 | sed -e 's/\(.*\)/\L\1/')
-    val=$(echo ${envname}|cut -d= -f 2)
-    if grep $name $CASSANDRA_CFG;then
+    name=$(echo "${envname}"| sed s/CASSANDRA_YAML_//g | cut -d= -f 1 | sed -e 's/\(.*\)/\L\1/')
+    val=$(echo "${envname}"|cut -d= -f 2)
+    if grep "$name" "$CASSANDRA_CFG";then
         echo "FOUND $name $val"
         sed -ri 's/^(#\s*)?('"$name"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
     else
