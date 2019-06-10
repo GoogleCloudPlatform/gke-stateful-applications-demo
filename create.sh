@@ -44,9 +44,6 @@ else
   echo "The Kubernetes Engine API is already enabled"
 fi
 
-# Turn off annoying messages
-gcloud config set container/new_scopes_behavior true > /dev/null
-
 # Create a GKE cluster
 # Only setting num of node to "1", because it is a regional cluster the create
 # call will create a nodepool that has "1" node in every zone.
