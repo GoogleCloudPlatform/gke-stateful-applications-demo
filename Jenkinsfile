@@ -24,7 +24,6 @@ limitations under the License.
 pipeline {
   agent {
     kubernetes {
-      label 'k8s-infra'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -40,23 +39,10 @@ spec:
     - cat
     tty: true
     volumeMounts:
-    ## Mount the docker.sock file so we can communicate with the local docker
-    ## daemon
-    #- name: docker-sock-volume
-    #  mountPath: /var/run/docker.sock
-    ## Mount the local docker binary
-    #- name: docker-bin-volume
-    #  mountPath: /usr/bin/docker
     # Mount the dev service account key
     - name: dev-key
       mountPath: /home/jenkins/dev
   volumes:
-  #- name: docker-sock-volume
-  #  hostPath:
-  #    path: /var/run/docker.sock
-  #- name: docker-bin-volume
-  #  hostPath:
-  #    path: /usr/bin/docker
   # Create a volume that contains the dev json key that was saved as a secret
   - name: dev-key
     secret:
