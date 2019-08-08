@@ -79,7 +79,7 @@ spec:
     // Run our various linters against the project
     stage('Lint') {
       steps {
-        container('stateful-applications {
+        container('stateful-applications') {
            sh "make all"
         }
       }
@@ -88,7 +88,7 @@ spec:
     // Setup the GCE access for Jenkins test run
     stage('Setup') {
       steps {
-       container('stateful-applications {
+       container('stateful-applications') {
           script {
                 // env.CLUSTER_ZONE will need to be updated to match the
                 // ZONE in the jenkins.propeties file
@@ -114,7 +114,7 @@ spec:
    // Use Cloud Build to build our two containers
    stage('Build Containers') {
       steps {
-        container('stateful-applications {
+        container('stateful-applications') {
            dir ('container') {
               sh 'gcloud builds submit --config=cloudbuild.yaml --substitutions=_CASSANDRA_VERSION=${CASSANDRA_VERSION},_REV_=${REV} .'
            }
@@ -125,7 +125,7 @@ spec:
     // Update the manifest and build the Cassandra Cluster
     stage('Create') {
       steps {
-        container('stateful-applications {
+        container('stateful-applications') {
            timeout(time: 30, unit: 'MINUTES') {
              // update the cassandra image tag
              sh "./update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}"
@@ -139,7 +139,7 @@ spec:
     // Validate the Cassandra Cluster
     stage('Validate') {
       steps {
-        container('stateful-applications {
+        container('stateful-applications') {
           script {
             for (int i = 0; i < 3; i++) {
                sh "make validate CLUSTER_NAME=${env.CLUSTER_NAME}"
@@ -153,7 +153,7 @@ spec:
   // Tear down everything
   post {
     always {
-      container('stateful-applications {
+      container('stateful-applications') {
         sh "make delete CLUSTER_NAME=${env.CLUSTER_NAME}"
       }
     }
