@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 /*
 Copyright 2018 Google LLC
 
@@ -22,7 +24,6 @@ limitations under the License.
 pipeline {
   agent {
     kubernetes {
-      label 'k8s-infra'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -32,29 +33,16 @@ metadata:
     jenkins: build-node
 spec:
   containers:
-  - name: k8s-node
-    image: gcr.io/pso-helmsman-cicd/jenkins-k8s-node:${env.CONTAINER_VERSION}
+  - name: stateful-applications
+    image: gcr.io/pso-helmsman-cicd/jenkins-k8s-node:${env.JENKINS_CONTAINER_VERSION}
     command:
     - cat
     tty: true
     volumeMounts:
-    # Mount the docker.sock file so we can communicate with the local docker
-    # daemon
-    - name: docker-sock-volume
-      mountPath: /var/run/docker.sock
-    # Mount the local docker binary
-    - name: docker-bin-volume
-      mountPath: /usr/bin/docker
     # Mount the dev service account key
     - name: dev-key
       mountPath: /home/jenkins/dev
   volumes:
-  - name: docker-sock-volume
-    hostPath:
-      path: /var/run/docker.sock
-  - name: docker-bin-volume
-    hostPath:
-      path: /usr/bin/docker
   # Create a volume that contains the dev json key that was saved as a secret
   - name: dev-key
     secret:
@@ -77,7 +65,7 @@ spec:
     // Run our various linters against the project
     stage('Lint') {
       steps {
-        container('k8s-node') {
+        container('stateful-applications') {
            sh "make all"
         }
       }
@@ -86,7 +74,7 @@ spec:
     // Setup the GCE access for Jenkins test run
     stage('Setup') {
       steps {
-       container('k8s-node') {
+       container('stateful-applications') {
           script {
                 // env.CLUSTER_ZONE will need to be updated to match the
                 // ZONE in the jenkins.propeties file
@@ -112,7 +100,7 @@ spec:
    // Use Cloud Build to build our two containers
    stage('Build Containers') {
       steps {
-        container('k8s-node') {
+        container('stateful-applications') {
            dir ('container') {
               sh 'gcloud builds submit --config=cloudbuild.yaml --substitutions=_CASSANDRA_VERSION=${CASSANDRA_VERSION},_REV_=${REV} .'
            }
@@ -123,13 +111,12 @@ spec:
     // Update the manifest and build the Cassandra Cluster
     stage('Create') {
       steps {
-        container('k8s-node') {
-           timeout(time: 20, unit: 'MINUTES') {
+        container('stateful-applications') {
+           timeout(time: 30, unit: 'MINUTES') {
              // update the cassandra image tag
              sh "./update_image_tag.sh ${PROJECT_ID} ${APP_NAME} ${IMAGE_TAG} ${MANIFEST_FILE}"
              sh "make create CLUSTER_NAME=${env.CLUSTER_NAME}"
              sh "sleep 360"
-             // TODO add condition to test with `gcloud container clusters list --filter name=${env.CLUSTER_NAME} --format=value(status)` != "RUNNING" ]`
           }
         }
       }
@@ -138,7 +125,7 @@ spec:
     // Validate the Cassandra Cluster
     stage('Validate') {
       steps {
-        container('k8s-node') {
+        container('stateful-applications') {
           script {
             for (int i = 0; i < 3; i++) {
                sh "make validate CLUSTER_NAME=${env.CLUSTER_NAME}"
@@ -152,9 +139,8 @@ spec:
   // Tear down everything
   post {
     always {
-      container('k8s-node') {
+      container('stateful-applications') {
         sh "make delete CLUSTER_NAME=${env.CLUSTER_NAME}"
-        sh 'gcloud auth revoke'
       }
     }
   }
